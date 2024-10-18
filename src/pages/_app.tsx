@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
-import { usePlayer } from '@/hooks/usePlayer';
+import { telegram } from '@/utils/telegram';
 import '@/styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { initializePlayer } = usePlayer();
-
   useEffect(() => {
-    initializePlayer();
-  }, [initializePlayer]);
+    if (telegram) {
+      telegram.ready();
+    }
+  }, []);
 
   return <Component {...pageProps} />;
 }

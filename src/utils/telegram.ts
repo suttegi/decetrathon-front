@@ -1,11 +1,21 @@
-import { PlayerCreate } from '../types/api';
-
 export const telegram = typeof window !== 'undefined' ? window.Telegram?.WebApp : null;
 
-export const getTelegramUser = (): PlayerCreate | null => {
-  const user = telegram?.initDataUnsafe?.user;
-  
-  if (!user) return null;
+export const getTelegramUser = () => {
+  if (!telegram?.initDataUnsafe?.user) {
+    console.warn('Telegram user data is not available');
+    if (process.env.NODE_ENV === 'development') {
+      return {
+        telegram_id: 12345,
+        first_name: 'Test',
+        last_name: 'User',
+        username: 'testuser',
+        language_code: 'en',
+      };
+    }
+    return null;
+  }
+
+  const user = telegram.initDataUnsafe.user;
   
   return {
     telegram_id: user.id,

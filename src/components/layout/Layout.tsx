@@ -2,14 +2,18 @@ import React, { PropsWithChildren } from 'react';
 import { usePlayer } from '@/hooks/usePlayer';
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  const { player } = usePlayer();
+  const { player, loading } = usePlayer();
 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <h1 className="text-lg font-semibold text-gray-900">
-            Welcome, {player?.first_name || 'Guest'}!
+            {loading ? (
+              <span className="animate-pulse">Loading...</span>
+            ) : (
+              `Welcome, ${player?.first_name || 'Guest'}!`
+            )}
           </h1>
         </div>
       </header>
